@@ -1,1 +1,6 @@
-# Altkom.14-15.12.2020.NETCORE3_US
+## CLI
+* Nowy projekt
+	* konsolowy
+	```
+	dotnet new console [-o <LOKALIZACJA> -n <NAZWA_PROEKTU>]
+	```

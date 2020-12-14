@@ -7,5 +7,16 @@
         {
             "Key1": "from Json"
         }
+    },
+    "Logging": {
+        "LogLevel": {
+            "Default": "Trace"
+        },
+        "Console": {
+            "LogLevel": {
+                "Default": "Debug"
+            },
+            "IncludeScopes": false
+        }
     }
 }

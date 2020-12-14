@@ -3,6 +3,7 @@ using Console.Models;
 using Console.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace Console
 {
@@ -13,12 +14,14 @@ namespace Console
 
         static void Main(string[] args)
         {
-            Configuration();
+            var config = Configuration();
 
             var serviceCollection = new ServiceCollection();
             ServiceProvider = serviceCollection
             .AddScoped<IWriteService, ConsoleWriteService>()
             .AddScoped<IFiggleWriteService, FiggleWriteService>()
+            //.AddLogging(builder => builder.AddConsole().AddDebug()).Configure<LoggerFilterOptions>(options => options.MinLevel = LogLevel.Debug)
+            .AddLogging(builder => builder.AddConsole().AddDebug().AddConfiguration(config.GetSection("Logging")))
             .BuildServiceProvider();
 
 
@@ -29,12 +32,17 @@ namespace Console
         static public void Write() {
             var services =  ServiceProvider.GetServices<IFiggleWriteService>();
             //Hello(config["Section:Key2"], config["Section:Subsection:Key1"]);
-
-            foreach(var service in services )
-                Hello(service, Settings.Section.Key1, Settings.Section.Subsection.Key1);
+            var logger = ServiceProvider.GetService<ILogger<Program>>();
+            foreach(var service in services ) {
+                using(logger.BeginScope($"foreach for {service.GetType().Name}")) {
+                    logger.LogDebug($"start");                
+                    Hello(service, Settings.Section.Key1, Settings.Section.Subsection.Key1);
+                    logger.LogInformation($"end");
+                }
+            }
         }
 
-        private static void Configuration()
+        private static IConfigurationRoot Configuration()
         {
             var config = new ConfigurationBuilder()
             //.AddXmlFile("configapp.xml", optional: false, reloadOnChange: true)
@@ -43,6 +51,7 @@ namespace Console
             .AddJsonFile("configapp.json", optional: true, reloadOnChange: true)
             .Build();
             config.Bind(Settings);
+            return config;
         }
 
         private static void Hello(IWriteService service, string hello, string from)

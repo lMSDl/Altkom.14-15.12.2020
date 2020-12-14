@@ -29,3 +29,12 @@
 	```
 	dotnet publish -r <IDENTYFIKATOR_ŚRODOWISKA> -p:PublishReadyToRun=true
 	```
+* Pakiety i referencje
+	* Dodawanie pakietów
+	```
+	dotnet add package <NAZWA_PAKIETU>
+	```
+	* Pobranie pakietów
+	```
+	dotnet restore
+	```

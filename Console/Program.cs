@@ -8,23 +8,20 @@ namespace Console
         static void Main(string[] args)
         {
             var config = new ConfigurationBuilder()
-            .AddXmlFile("configapp.xml", optional: false, reloadOnChange: true)
+            //.AddXmlFile("configapp.xml", optional: false, reloadOnChange: true)
+            //.AddIniFile("configapp.ini", optional: true, reloadOnChange: true)
+            .//AddYamlFile("configapp.yaml", optional: true, reloadOnChange: true)
             .AddJsonFile("configapp.json", optional: true, reloadOnChange: true)
-            .AddIniFile("configapp.ini", optional: true, reloadOnChange: true)
-            .AddYamlFile("configapp.yaml", optional: true, reloadOnChange: true)
             .Build();
 
-            Hello(config["HelloJson"]);
-            Hello(config["HelloIni"]);
-            Hello(config["HelloXml"]);
-            Hello(config["HelloYaml"]);
+            Hello(config["Section:Key2"], config["Section:Subsection:Key1"]);
         }
 
-        private static void Hello(string @string)
+        private static void Hello(string hello, string from)
         {
             System.Console.WriteLine(
                 Figgle.FiggleFonts.Standard.Render(
-                $"Hello {@string}!")
+                $"{hello} {from}!")
             );
         }
     }

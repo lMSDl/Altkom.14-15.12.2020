@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Console.Models;
 using Microsoft.Extensions.Configuration;
 
 namespace Console
@@ -14,7 +15,11 @@ namespace Console
             .AddJsonFile("configapp.json", optional: true, reloadOnChange: true)
             .Build();
 
+            var settings = new Settings();
+            config.Bind(settings);
+
             Hello(config["Section:Key2"], config["Section:Subsection:Key1"]);
+            Hello(settings.Section.Key1, settings.Section.Subsection.Key1);
         }
 
         private static void Hello(string hello, string from)

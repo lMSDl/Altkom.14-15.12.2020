@@ -5,12 +5,12 @@ using Microsoft.Extensions.Logging;
 
 namespace WebApi.Middleware
 {
-    public class SampleMiddleware
+    public class LoggingRequestsMiddleware
     {
-        private ILogger<SampleMiddleware> _logger;
+        private ILogger<LoggingRequestsMiddleware> _logger;
         private RequestDelegate _next;
 
-        public SampleMiddleware(RequestDelegate next, ILogger<SampleMiddleware> logger)
+        public LoggingRequestsMiddleware(RequestDelegate next, ILogger<LoggingRequestsMiddleware> logger)
         {
             _logger = logger;
             _next = next;
@@ -20,7 +20,7 @@ namespace WebApi.Middleware
         {
             await _next(context);
             
-            _logger.LogInformation($"{DateTime.Now}: {context.Request.Host}\\{context.Request.Path} - StatusCode {context.Response.StatusCode}");
+            _logger.LogInformation($"{DateTime.Now}: {context.Request.Host}{context.Request.Path} - StatusCode {context.Response.StatusCode}");
         }
     }
 }

@@ -52,5 +52,19 @@ namespace WebApi.Controllers
             })
             .ToArray();
         }
+
+        
+        [HttpGet("~/loop")]
+        public Loop GetLoop() {
+            var loop = new Loop();
+            var loop2 = new Loop();
+            loop.Parent = loop2;
+            loop2.Parent = loop;
+            return loop;
+        }
+
+        public class Loop {
+            public Loop Parent {get; set;}
+        }
     }
 }

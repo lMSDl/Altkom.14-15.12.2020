@@ -4,11 +4,11 @@ using Microsoft.Extensions.Logging;
 
 namespace WebApi.Middleware
 {
-    public class FactorySampleMiddleware : IMiddleware
+    public class LimitRequestsMiddleware : IMiddleware
     {
-        private ILogger<FactorySampleMiddleware> _logger;
+        private ILogger<LimitRequestsMiddleware> _logger;
 
-        public FactorySampleMiddleware(ILogger<FactorySampleMiddleware> logger)
+        public LimitRequestsMiddleware(ILogger<LimitRequestsMiddleware> logger)
         {
             _logger = logger;
         }
